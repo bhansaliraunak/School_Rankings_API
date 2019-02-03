@@ -4,7 +4,8 @@ bodyParser = require('body-parser'),
 session = require('express-session'),
 cors = require('cors'),
 errorHandler = require('errorhandler'),
-mongoose = require('mongoose');
+mongoose = require('mongoose'),
+responseTime= require('response-time');
 
 var swaggerJSDoc = require('swagger-jsdoc'),
 expressPaginate = require('express-paginate');
@@ -42,6 +43,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret: 'school-rankings', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false}));
 app.use(expressPaginate.middleware(5, 5));
+app.use(responseTime());
 
 if(!isProduction){
     app.use(errorHandler());
