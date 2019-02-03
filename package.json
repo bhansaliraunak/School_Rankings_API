@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "async": "^2.6.1",
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
@@ -27,6 +28,8 @@
     "passport": "^0.4.0",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
+    "redis": "^2.8.0",
+    "response-time": "^2.3.2",
     "sendgrid": "^5.2.3",
     "serve-favicon": "^2.5.0",
     "swagger-jsdoc": "^3.2.6"
