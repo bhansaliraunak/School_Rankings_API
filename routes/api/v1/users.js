@@ -42,7 +42,6 @@ router.post('/', auth.optional, (req, res, next) => {
 
   //console.log('Request: ', req);
   const { body: {user}} = req;
-  console.log(user);
 
   if(!user.email) {
     return res.status(422).json({
