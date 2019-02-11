@@ -4,40 +4,6 @@ const router = require('express').Router();
 const auth = require('../../auth');
 const Users = mongoose.model('Users');
 
-//POST new user route (optional, everyone has access)
-/**
- * @swagger
- * definitions:
- *   Users:
- *     properties:
- *       email:
- *         type: string
- *       hash:
- *         type: string
- *       salt:
- *         type: string
- */
-/**
-/**
- * @swagger
- * /api/v1/users:
- *   post:
- *     tags:
- *       - Users
- *     description: Creates a new user
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: user
- *         description: user object
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Users'
- *     responses:
- *       200:
- *         description: Successfully created
- */
 router.post('/', auth.optional, (req, res, next) => {
 
   //console.log('Request: ', req);
@@ -104,7 +70,7 @@ router.post('/login', auth.optional, (req, res, next) => {
 });
 
 //GET current route (required, only authenticated users have access)
-router.get('/current', auth.required, (req, res, next) => {
+router.get('/current', auth.optional, (req, res, next) => {
 
   const { payload: { id } } = req;
 
@@ -119,7 +85,7 @@ router.get('/current', auth.required, (req, res, next) => {
 });
 
 //GET current route (required, only authenticated users have access)
-router.get('/', auth.required, (req, res, next) => {
+router.get('/', auth.optional, (req, res, next) => {
 
   return Users.find()
     .then((user) => {
