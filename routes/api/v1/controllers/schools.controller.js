@@ -39,7 +39,7 @@ exports.getAllSchoolsWithPagination = (req, res, next) => {
                 return axios.get(
                     Schools.paginate({}, Schools.find().limit(req.query.limit).skip(req.skip).lean().exec().then((schools)=>{
                         const responseJSON = schools;
-                    client.setex('/api/v1/schools?page='+req.query.page+'&limit='+req.query.limit, 3600, JSON.stringify({ source: '_cache_get_scrank_all', ...responseJSON, }));
+                    client.setex('/api/v1/schools?page='+req.query.page+'&limit='+req.query.limit, 3600, JSON.stringify(responseJSON));
            
                         return res.status(200).json({
                             object: 'schools',
@@ -50,6 +50,16 @@ exports.getAllSchoolsWithPagination = (req, res, next) => {
                         next(err);
                     })));    
             }
+        });
+    }
+
+    else {
+
+        Schools.find((err, school)=>{
+            if(err){
+                return next(err);
+            }
+            return res.json(school);
         });
     }
 }
@@ -63,3 +73,4 @@ exports.getSchoolById = (req, res, next) => {
         return res.json(school);
     });
 }
+
