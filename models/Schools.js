@@ -4,6 +4,8 @@ jwt = require('jsonwebtoken');
 
 var mongoosePaginate = require('mongoose-paginate');
 
+var searchable = require('mongoose-searchable');
+
 const { Schema } = mongoose;
 
 
@@ -15,6 +17,9 @@ const SchoolSchema = new Schema({
     school_admission_status: String,
     school_ranking: Number
 });
+
+SchoolSchema.plugin(mongoosePaginate);
+SchoolSchema.plugin(searchable);
 
 SchoolSchema.methods.generateJWT = function(){
 
@@ -49,6 +54,9 @@ SchoolSchema.methods.toAuthJSON = function(){
 };
 
 
-SchoolSchema.plugin(mongoosePaginate);
+
+
 var Schools= mongoose.model('Schools',SchoolSchema);
+
+
 module.exports= Schools;

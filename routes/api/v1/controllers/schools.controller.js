@@ -14,6 +14,8 @@ client.on('error', (err)=> {
 
 
 
+
+
 exports.createSchool = (req, res, next)=>{
     
     const { body: {schools} } = req;
@@ -73,4 +75,17 @@ exports.getSchoolById = (req, res, next) => {
         return res.json(school);
     });
 }
+
+
+Schools.ensureIndexes({school_name: "text"});
+exports.searchSchool = (req, res, next)=> {
+   console.log("ENTERED!!!!", req.params.name);
+    Schools.find({$text: {$search: req.params.name}}, (err, data)=>{
+        if(err){
+            return next(err);
+        }
+
+        return res.json(data);
+    });
+  }
 
