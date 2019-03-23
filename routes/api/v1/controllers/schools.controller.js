@@ -83,16 +83,27 @@ exports.getSchoolById = (req, res, next) => {
 // Schools.ensureIndexes({school_name: "text"});
 
 exports.searchSchool = (req, res, next) => {
+  let term = req.params.term;
+
+  if (term) {
     Schools.find(
-        { $text: { $search: req.params.term } },
-        { score: { $meta: "textScore" } }
+      { $text: { $search: req.params.term } },
+      { score: { $meta: "textScore" } }
     )
-        .sort({ score: { $meta: 'textScore' } })
-        .exec((err, data) => {
-            if (err) {
-                return next(err);
-            }
-            return res.json(data);
-        });
-}
+      .sort({ score: { $meta: "textScore" } })
+      .exec((err, data) => {
+        if (err) {
+          return next(err);
+        }
+        return res.json(data);
+      });
+  } else {
+    Schools.find((err, data) => {
+      if (err) {
+        return next(err);
+      }
+      return res.json(data);
+    });
+  }
+};
 
