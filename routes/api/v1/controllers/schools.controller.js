@@ -4,7 +4,7 @@ axios = require('axios'),
 redis = require('redis'),
 client = redis.createClient();
 
-var Schools = require('../../../../models/Schools'),
+var Schools = require(`${__base}/models/Schools`),
     url= require('url'),
     ObjectID = require('mongoose').ObjectID;
 
@@ -77,15 +77,22 @@ exports.getSchoolById = (req, res, next) => {
 }
 
 
-Schools.ensureIndexes({school_name: "text"});
-exports.searchSchool = (req, res, next)=> {
-   console.log("ENTERED!!!!", req.params.name);
-    Schools.find({$text: {$search: req.params.name}}, (err, data)=>{
-        if(err){
-            return next(err);
-        }
+// Ensure indexes is depcreated
+// A new text index was created directly on the collection
+// See mongo/CreateSchoolSearchIndex.mongo
+// Schools.ensureIndexes({school_name: "text"});
 
-        return res.json(data);
-    });
-  }
+exports.searchSchool = (req, res, next) => {
+    Schools.find(
+        { $text: { $search: req.params.term } },
+        { score: { $meta: "textScore" } }
+    )
+        .sort({ score: { $meta: 'textScore' } })
+        .exec((err, data) => {
+            if (err) {
+                return next(err);
+            }
+            return res.json(data);
+        });
+}
 

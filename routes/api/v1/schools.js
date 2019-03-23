@@ -9,6 +9,6 @@ router.get('/', auth.optional, schools_controller.getAllSchoolsWithPagination);
 
 router.get('/:id', auth.optional, schools_controller.getSchoolById);
 
-router.post('/search/:name', auth.optional, schools_controller.searchSchool);
+router.get('/search/:term', auth.optional, schools_controller.searchSchool);
 
 module.exports = router;
