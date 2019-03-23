@@ -18,6 +18,23 @@ const SchoolSchema = new Schema({
     school_ranking: Number
 });
 
+SchoolSchema.index({
+    school_name: 'text',
+    school_state: 'text',
+    school_city: 'text',
+    school_cityarea: 'text',
+    school_admission_status: 'text',
+}, {
+    name: 'School Search Index',
+    weights: {
+        school_name: 10,
+        school_state: 8,
+        school_city: 6,
+        school_cityarea: 4,
+        school_admission_status: 2,
+    }
+});
+
 SchoolSchema.plugin(mongoosePaginate);
 SchoolSchema.plugin(searchable);
 
@@ -56,7 +73,7 @@ SchoolSchema.methods.toAuthJSON = function(){
 
 
 
-var Schools= mongoose.model('Schools',SchoolSchema);
+var Schools = mongoose.model('Schools', SchoolSchema);
 
 
-module.exports= Schools;
+module.exports = Schools;

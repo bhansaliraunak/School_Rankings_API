@@ -1,0 +1,27 @@
+// This replaces and updates the schools collection index
+// Since only one text index can be created per collection
+// We drop the existing index and create the new one
+// Do not run for "mongodb://srankings:srankings123@ds145750.mlab.com:45750/school-rankings"! 
+// Already executed on Mlab
+db.schools.getIndexes()
+
+db.schools.dropIndex("keywords_text")
+
+db.schools.createIndex({
+    school_name: 'text',
+    school_state: 'text',
+    school_city: 'text',
+    school_cityarea: 'text',
+    school_admission_status: 'text',
+}, {
+    name: 'School Search Index',
+    weights: {
+        school_name: 10,
+        school_state: 8,
+        school_city: 6,
+        school_cityarea: 4,
+        school_admission_status: 2,
+    }
+});
+
+db.schools.find();

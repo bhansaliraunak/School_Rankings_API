@@ -1,3 +1,11 @@
+// Reference to the root application directory
+// for cleaner require calls in other files
+// Usage: 
+// var Schools = require(`{__base}/models/Schools`)
+// instead of
+// var Schools = require("../../../../models/Schools");
+global.__base = __dirname;
+
 const express = require('express'),
 path = require('path'),
 bodyParser = require('body-parser'),
