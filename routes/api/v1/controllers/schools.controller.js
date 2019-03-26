@@ -12,10 +12,6 @@ client.on('error', (err)=> {
     console.log('Error: '+err);
 });
 
-
-
-
-
 exports.createSchool = (req, res, next)=>{
     
     const { body: {schools} } = req;
