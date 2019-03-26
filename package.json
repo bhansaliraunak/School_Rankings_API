@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "async": "^2.6.1",
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
@@ -22,14 +23,18 @@
     "mongojs": "^2.6.0",
     "mongoose": "^5.3.14",
     "mongoose-paginate": "^5.0.3",
+    "mongoose-searchable": "^1.0.0",
     "morgan": "^1.9.1",
+    "nodemon": "^1.18.10",
     "oauth": "^0.9.15",
     "passport": "^0.4.0",
     "passport-github": "^1.1.0",
     "passport-local": "^1.0.0",
+    "redis": "^2.8.0",
+    "response-time": "^2.3.2",
     "sendgrid": "^5.2.3",
     "serve-favicon": "^2.5.0",
-    "swagger-jsdoc": "^3.2.6"
+    "swagger-jsdoc": "^3.2.8"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
@@ -37,7 +42,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC"
