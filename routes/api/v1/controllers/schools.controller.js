@@ -6,7 +6,8 @@ client = redis.createClient();
 
 var Schools = require(`${__base}/models/Schools`),
     url= require('url'),
-    ObjectID = require('mongoose').ObjectID;
+    ObjectID = require('mongoose').ObjectID,
+    NodeGeocoder = require('node-geocoder');;
 
 client.on('error', (err)=> {
     console.log('Error: '+err);
@@ -70,6 +71,8 @@ exports.getSchoolById = (req, res, next) => {
         }
         return res.json(school);
     });
+
+    
 }
 
 
@@ -78,8 +81,23 @@ exports.getSchoolById = (req, res, next) => {
 // See mongo/CreateSchoolSearchIndex.mongo
 // Schools.ensureIndexes({school_name: "text"});
 
+var NodeGeocoder = require('node-geocoder');
+ 
+var geocoder = NodeGeocoder({
+  provider: 'opencage',
+  apiKey: 'd4641583c9eb4b4eb6286824a9e04b09'
+});
+
 exports.searchSchool = (req, res, next) => {
-  let term = req.params.term;
+    let term = req.params.term;
+    geocoder.geocode('18.5852684, 73.7662526')
+    .then(function(res) {
+    this.term = res[0].county;
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  
 
   if (term) {
     Schools.find(
@@ -93,7 +111,7 @@ exports.searchSchool = (req, res, next) => {
         }
         return res.json(data);
       });
-  } else {
+  } else {  
     Schools.find((err, data) => {
       if (err) {
         return next(err);
