@@ -11,4 +11,6 @@ router.get('/search/:term?', auth.optional, schools_controller.searchSchool);
 
 router.get('/:id', auth.optional, schools_controller.getSchoolById);
 
+router.get('/find/:term?', auth.optional, schools_controller.getGeoLocSchools);
+
 module.exports = router;

@@ -4,10 +4,18 @@ axios = require('axios'),
 redis = require('redis'),
 client = redis.createClient();
 
+
 var Schools = require(`${__base}/models/Schools`),
     url= require('url'),
     ObjectID = require('mongoose').ObjectID,
-    NodeGeocoder = require('node-geocoder');;
+    NodeGeocoder = require('node-geocoder');
+
+var NodeGeocoder = require('node-geocoder');
+ 
+var geocoder = NodeGeocoder({
+  provider: 'opencage',
+  apiKey: 'd4641583c9eb4b4eb6286824a9e04b09'
+});
 
 client.on('error', (err)=> {
     console.log('Error: '+err);
@@ -81,23 +89,11 @@ exports.getSchoolById = (req, res, next) => {
 // See mongo/CreateSchoolSearchIndex.mongo
 // Schools.ensureIndexes({school_name: "text"});
 
-var NodeGeocoder = require('node-geocoder');
- 
-var geocoder = NodeGeocoder({
-  provider: 'opencage',
-  apiKey: 'd4641583c9eb4b4eb6286824a9e04b09'
-});
+
 
 exports.searchSchool = (req, res, next) => {
-    let term = req.params.term;
-    geocoder.geocode('18.5852684, 73.7662526')
-    .then(function(res) {
-    this.term = res[0].county;
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-  
+    
+  let term = req.params.term;
 
   if (term) {
     Schools.find(
@@ -120,4 +116,44 @@ exports.searchSchool = (req, res, next) => {
     });
   }
 };
+
+var request = require('request');
+
+exports.getGeoLocSchools = (req, res, next) =>{
+  
+  return new Promise((resolve, reject) => {
+    
+    geocoder.geocode(req.params.term)
+    .then((err, data)=> {
+      if(err) reject(err);
+        var geo_loc_url ='http://localhost:8000/api/v1/schools/search/'+'Jodhpur';
+        
+         data= apiCall(geo_loc_url).then(dat=> {
+          console.log('Data: ', dat);
+            return res.json(dat);
+      });
+
+    
+    
+    })
+      .catch(function(err) {
+        console.log(err);
+    }); 
+  });
+};
+
+const apiCall = (url) => {
+
+  return new Promise((resolve, reject) => {
+    var options = {
+          url: data,
+          json: true
+    };
+    request.get(options, function(error, res, body) {
+          if(error) reject(error);
+          resolve(body);
+    });
+  });
+}
+
 
