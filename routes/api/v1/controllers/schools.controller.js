@@ -8,8 +8,9 @@ client = redis.createClient();
 var Schools = require(`${__base}/models/Schools`),
     url= require('url'),
     ObjectID = require('mongoose').ObjectID,
-    NodeGeocoder = require('node-geocoder');
-
+    NodeGeocoder = require('node-geocoder'),
+    request = require('request');
+   
 var NodeGeocoder = require('node-geocoder');
  
 var geocoder = NodeGeocoder({
@@ -117,43 +118,24 @@ exports.searchSchool = (req, res, next) => {
   }
 };
 
-var request = require('request');
 
-exports.getGeoLocSchools = (req, res, next) =>{
+
+exports.getGeoLocSchools = (req, res)=>{
   
-  return new Promise((resolve, reject) => {
-    
-    geocoder.geocode(req.params.term)
-    .then((err, data)=> {
-      if(err) reject(err);
-        var geo_loc_url ='http://localhost:8000/api/v1/schools/search/'+'Jodhpur';
-        
-         data= apiCall(geo_loc_url).then(dat=> {
-          console.log('Data: ', dat);
-            return res.json(dat);
-      });
+geocoder.geocode(req.params.term).then(data=>{
+ 
+  var options ={
+    url: 'http://localhost:8000/api/v1/schools/search/'+data[0].county,
+    method: 'GET',
+    json: true
+  }
+  request(options, (error,response,body)=>{
+    return res.json(body); 
+  })
+  
+});
+  };
 
-    
-    
-    })
-      .catch(function(err) {
-        console.log(err);
-    }); 
-  });
-};
 
-const apiCall = (url) => {
-
-  return new Promise((resolve, reject) => {
-    var options = {
-          url: data,
-          json: true
-    };
-    request.get(options, function(error, res, body) {
-          if(error) reject(error);
-          resolve(body);
-    });
-  });
-}
 
 
