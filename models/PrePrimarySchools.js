@@ -64,5 +64,4 @@ PrePrimarySchoolSchema.methods.toAuthJSON = function(){
 };
 
 var PrePrimarySchools = mongoose.model('PrePrimarySchools', PrePrimarySchoolSchema);
-console.log('Entered MODEL!');
 module.exports = PrePrimarySchools;
