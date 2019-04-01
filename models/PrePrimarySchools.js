@@ -53,6 +53,7 @@ PrePrimarySchoolSchema.methods.toAuthJSON = function(){
     pre_primary_school_students_count: this.pre_primary_school_students_count,
     pre_primary_school_application_status: this.pre_primary_school_application_status,
     pre_primary_school_application_deadline: this.pre_primary_school_application_deadline,
+    pre_primary_school_seats_count: this.pre_primary_school_seats_count,
     pre_primary_school_seats_remaining_count: this.pre_primary_school_remaining_seats_count,
     pre_primary_school_students_applied_count: this.pre_primary_school_students_applied_count,
     pre_primary_school_students_accepted_count: this.pre_primary_school_students_accepted_count,
@@ -64,5 +65,4 @@ PrePrimarySchoolSchema.methods.toAuthJSON = function(){
 };
 
 var PrePrimarySchools = mongoose.model('PrePrimarySchools', PrePrimarySchoolSchema);
-console.log('Entered MODEL!');
 module.exports = PrePrimarySchools;

@@ -12,8 +12,8 @@ exports.createPrePrimarySchool = (req, res, next)=>{
 }
 
 exports.getAllPrePrimarySchools = (req, res, next) => {
-   
-        PrePrimarySchools.find((err,school)=>{
+    console.log('ENTERED!!!');
+        PrePrimarySchools.find({}, (err,school)=>{
             if(err){
                 return next(err);
             }
@@ -23,7 +23,7 @@ exports.getAllPrePrimarySchools = (req, res, next) => {
 }
 
 exports.getPrePrimarySchoolById = (req, res, next) => {
-    console.log('ENTERED!!!');
+    
     PrePrimarySchools.findById( req.params.id, (err, school)=>{
         if(err){
             return next(err);
